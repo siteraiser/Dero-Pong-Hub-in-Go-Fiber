@@ -6,4 +6,4 @@ The orignal, written in PHP can be found here: <a href="https://github.com/siter
 Create database: pong_store<br>
 user:root<br>
 password:(empty)<br>
-Then run the table setup sql script.
+Then run the SQL provided in mysql-table-setup.txt to setup the tables.
