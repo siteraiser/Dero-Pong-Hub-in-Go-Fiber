@@ -1,3 +1,4 @@
+#Table setup for database "pong_store"
 CREATE TABLE products (
 	id smallint(6) unsigned NOT NULL auto_increment,
 	pid smallint(6) unsigned NULL,
