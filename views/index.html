@@ -1,0 +1,106 @@
+{{template "partials/header" .}}
+<style>
+  .clearfix::after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+  .products{	    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .product{
+    width: 100%;
+    box-sizing: border-box;
+    border:1px solid green;
+    background: #f7f7f7;
+    border-radius:4px;
+    padding:10px;
+    margin:1%;
+    font-family: sans-serif;
+  }
+  
+  @media only screen and (min-width: 600px) {
+    .product{
+    width: 48%;
+    padding:10px;
+  }
+  }
+  @media only screen and (min-width: 900px) {
+    .product{
+    width: 31%;
+    padding:10px;
+  }
+  }	
+  
+  .product h2,.product h3{
+    margin:2px;
+  }
+  
+  
+  .product_image_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .product_image{
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .iaddresses{
+    display:flex;
+    flex-wrap: wrap;
+  }
+  .iaddress{    
+    border: 1px solid #888;
+    padding: 10px;
+    flex: 1 1 42%;
+  }
+  
+  </style>
+<main>
+<h1>{{.Title}}</h1>
+<div class="products">
+{{range .Products}}
+<div class="product clearfix">
+    {{if .Image }}
+    <div class="product_image_wrapper">
+      {{unescape  .Img }}
+    </div>
+    {{ end }}
+
+  <h2>{{.Label}}</h2>
+
+  <div class="product_info">
+    {{if .Use_p_inv }}
+    Available: {{.Inventory}}
+    {{ end }}
+    <h3 style="overflow-wrap: break-word;">Seller: {{.Username}}</h3>
+    <div class="details">{{.Details}}</div>
+  </div>
+    <br style="clear:both">
+ 
+  <div class="iaddresses">
+  {{range .Iaddresses}}
+<div class="iaddress">
+  {{if .Ia_inventory }}
+  <div>Available:{{.Ia_inventory}}</div>
+  {{ end }}
+  <h3>{{.Comment}}</h3>
+  <div>Price: {{.Ask_amount}} Dero</div>
+  <div><a href="/order/{{.Id}}">Click Here To Order</a></div>
+</div>
+{{end}}
+</div><!-- end iaddresses -->
+</div>
+
+{{end}}
+</div>
+</main>
+{{template "partials/footer" .}}
