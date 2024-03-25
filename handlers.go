@@ -50,8 +50,12 @@ func handlePapi(c *fiber.Ctx) error {
 			var obj SubmitIAddressObject
 			err = c.BodyParser(&obj)
 			r = submitIAddress(userObj, obj)
-
+		case "submitTX":
+			var obj SubmitTxObject
+			err = c.BodyParser(&obj)
+			r = submitTx(userObj, obj)
 		default:
+			return c.JSON(response)
 		}
 	} else if testobject.Method == "register" && len(pass) == 0 {
 		var obj RegisterObject

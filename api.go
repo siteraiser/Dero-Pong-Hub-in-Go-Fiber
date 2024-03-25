@@ -34,8 +34,7 @@ func register(
 func submitProduct(
 	userObj map[string]interface{}, // curl -u secret:ca2154ca-5fb9-4884-b1ec-eee084de40fb
 	obj SubmitProductObject, // and we are submitting a product
-) map[string]interface {
-} {
+) map[string]interface{} {
 
 	response := map[string]interface {
 	}{
@@ -45,7 +44,9 @@ func submitProduct(
 		return response
 	}
 	response = map[string]interface {
-	}{"success": false}
+	}{
+		"success": false,
+	}
 	return response
 }
 
@@ -61,6 +62,31 @@ func submitIAddress(
 	}
 
 	if productmodel.SubmitIAddress(
+		userObj,
+		obj.Params,
+	) {
+		return response
+	}
+
+	response = map[string]interface {
+	}{
+		"success": false,
+	}
+
+	return response
+}
+
+func submitTx(
+	userObj map[string]interface { // similar pattern, we have a user
+	},
+	obj SubmitTxObject, // and we are submitting a "paid"
+) map[string]interface {
+} {
+	response := map[string]interface {
+	}{
+		"success": true,
+	}
+	if productmodel.SubmitTx(
 		userObj,
 		obj.Params,
 	) {

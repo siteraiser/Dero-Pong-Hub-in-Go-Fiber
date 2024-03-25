@@ -40,6 +40,14 @@ type SubmitIAddressObject struct {
 	}
 }
 
+type SubmitTxObject struct {
+	Method string `json:"method"`
+	Params struct {
+		Uuid  string `json:"uuid,omitempty"`
+		Ia_id int    `json:"ia_id,omitempty"`
+	}
+}
+
 type Product struct {
 	Label      string
 	Details    string
