@@ -7,7 +7,7 @@ import (
 	productmodel "goserver/models/product"
 	usermodel "goserver/models/user"
 	"html/template"
-
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -398,7 +398,9 @@ func order(iaid string) FullProduct {
 	}
 	product.Scid = scid
 
-	product.Details = strings.Replace(data["details"], "\n", "<br>", -1)
+	r := regexp.MustCompile(`<.*?>`)
+	product.Details = r.ReplaceAllString(data["details"], "")
+	product.Details = strings.Replace(product.Details, "\n", "<br>", -1)
 	product.P_type = data["p_type"]
 
 	product.Is_physical = false
