@@ -23,3 +23,8 @@ type IAddressJSON struct {
 	Ia_inventory int    `json:"ia_inventory,omitempty"`
 	Action       string `json:"action,omitempty"`
 }
+
+type TxJSON struct {
+	Uuid  string `json:"uuid,omitempty"`
+	Ia_id int    `json:"ia_id,omitempty"`
+}
