@@ -1,0 +1,9 @@
+{{template "partials/header" .}}
+{{if .Ia_id }}
+
+<p>You're are viewing restricted content</p>
+
+{{ else }}
+<p>You don't have access to this content</p>
+{{ end }}
+{{template "partials/footer" .}}
