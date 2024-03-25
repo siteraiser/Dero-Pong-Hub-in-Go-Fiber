@@ -7,5 +7,6 @@ func defineRoutes(app *fiber.App) {
 	// Define routes
 	app.Get("/", handleIndex)
 	app.Get("/order/:id", handleOrder)
+	app.Get("/restricted/:uuid", handleRestricted)
 	app.Use("/papi", handlePapi)
 }
