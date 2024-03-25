@@ -50,7 +50,8 @@ func handlePapi(c *fiber.Ctx) error {
 			var obj SubmitIAddressObject
 			err = c.BodyParser(&obj)
 			r = submitIAddress(userObj, obj)
-		case "submitTX":
+		case "newTX":
+			fmt.Println("submitTX")
 			var obj SubmitTxObject
 			err = c.BodyParser(&obj)
 			r = submitTx(userObj, obj)
@@ -96,6 +97,23 @@ func handleOrder(c *fiber.Ctx) error {
 		fiber.Map{
 			"Title":   "Hello, World!",
 			"Product": product,
+		},
+		"layouts/main",
+	)
+}
+
+// Define the route handler function
+func handleRestricted(c *fiber.Ctx) error {
+	// Call home function to fetch products data
+	ia_id := restricted(c.Params("uuid"))
+
+	fmt.Fprintf(c, "%v\n", ia_id)
+	// Render index template within layouts/main
+	return c.Render(
+		"restricted",
+		fiber.Map{
+			"Title": "Hello, Restricted World!",
+			"Ia_id": ia_id, // products = []
 		},
 		"layouts/main",
 	)
