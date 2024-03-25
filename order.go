@@ -166,9 +166,8 @@ func order(iaid string) FullProduct {
 		SELECT id,comment,ia_inventory,ask_amount,i_addresses.status 
 		AS ia_status 
 		FROM i_addresses 
-		WHERE i_addresses.product_id = ? AND i_addresses.user = ?", data["product_id"], data["user"]
-		`,
-	)
+		WHERE i_addresses.product_id = ? AND i_addresses.user = ?
+		`, data["product_id"], data["user"])
 	if err != nil {
 		panic(err.Error())
 	}
