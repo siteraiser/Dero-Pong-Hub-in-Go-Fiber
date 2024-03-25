@@ -3,6 +3,7 @@ package productmodel
 import (
 	"database/sql"
 	"fmt"
+	"reflect"
 
 	_ "github.com/go-sql-driver/mysql"
 )
