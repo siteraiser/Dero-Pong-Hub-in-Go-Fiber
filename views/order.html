@@ -69,7 +69,7 @@
     <p>
         {{.Product.Stock}}
 
-        <div class="details">Details: <p>{{.Product.Details}}</p></div>
+        <div class="details">Details: <p>{{unescape .Product.Details}}</p></div>
 
         {{if .Product.Scid }}
         <p style="overflow-wrap: break-word;">SCID: {{.Product.Scid }}</p>
