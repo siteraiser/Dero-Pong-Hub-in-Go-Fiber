@@ -36,22 +36,27 @@ func handlePapi(c *fiber.Ctx) error {
 	}
 	// fmt.Print(userObj)
 
-	if testobject.Method == "register" && len(userObj) == 0 && len(pass) == 0 {
+	if len(userObj) != 0 {
+		switch testobject.Method {
+		case "checkIn":
+			fmt.Println("Checking in")
+			usermodel.CheckIn(pass)
+			return c.Send([]byte{})
+		case "submitProduct":
+			var obj SubmitProductObject
+			err = c.BodyParser(&obj)
+			r = submitProduct(userObj, obj)
+		case "submitIAddress":
+			var obj SubmitIAddressObject
+			err = c.BodyParser(&obj)
+			r = submitIAddress(userObj, obj)
+
+		default:
+		}
+	} else if testobject.Method == "register" && len(pass) == 0 {
 		var obj RegisterObject
 		err = c.BodyParser(&obj)
 		r = register(obj)
-	} else if testobject.Method == "checkIn" {
-		fmt.Println("Checking in")
-		usermodel.CheckIn(pass)
-		return c.Send([]byte{})
-	} else if testobject.Method == "submitProduct" && len(userObj) != 0 {
-		var obj SubmitProductObject
-		err = c.BodyParser(&obj)
-		r = submitProduct(userObj, obj)
-	} else if testobject.Method == "submitIAddress" && len(userObj) != 0 {
-		var obj SubmitIAddressObject
-		err = c.BodyParser(&obj)
-		r = submitIAddress(userObj, obj)
 	}
 
 	if err != nil {
