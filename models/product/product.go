@@ -105,16 +105,30 @@ func updateProduct(user map[string]interface{}, product ProductJSON) bool {
 		panic(err.Error())
 	}
 	defer db.Close()
-	_, err = db.Exec(
-		"UPDATE products  SET p_type=?,label=?,details=?,scid=?,inventory=?,image=? WHERE pid=? AND user=?",
-		product.P_type,
-		product.Label,
-		product.Details,
-		product.Scid,
-		product.Inventory,
-		product.Image,
-		product.Id,
-		user["userid"])
+
+	if reflect.ValueOf(product.Image).IsZero() {
+		_, err = db.Exec(
+			"UPDATE products  SET p_type=?,label=?,details=?,scid=?,inventory=? WHERE pid=? AND user=?",
+			product.P_type,
+			product.Label,
+			product.Details,
+			product.Scid,
+			product.Inventory,
+			product.Id,
+			user["userid"])
+	} else {
+		_, err = db.Exec(
+			"UPDATE products  SET p_type=?,label=?,details=?,scid=?,inventory=?,image=? WHERE pid=? AND user=?",
+			product.P_type,
+			product.Label,
+			product.Details,
+			product.Scid,
+			product.Inventory,
+			product.Image,
+			product.Id,
+			user["userid"])
+	}
+
 	if err != nil {
 		return false
 	}
