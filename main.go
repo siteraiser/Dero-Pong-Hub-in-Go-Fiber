@@ -51,13 +51,12 @@ func main() {
 
 		//	fmt.Printf("s%", p)
 
-		// Render index within layouts/main
+		// Render order within layouts/main
 		return c.Render("order", fiber.Map{
 			"Title":   "Hello, World!",
 			"Product": p}, "layouts/main")
-		//return c.SendString()
 	})
-	app.Post("/papi", func(c *fiber.Ctx) error {
+	app.Use("/papi", func(c *fiber.Ctx) error {
 		auth := c.Get(fiber.HeaderAuthorization)
 		var ba = ""
 		if raw, err := base64.StdEncoding.DecodeString(auth[6:]); err == nil {
@@ -85,6 +84,7 @@ func main() {
 			err = c.BodyParser(&obj)
 			r = register(obj)
 		} else if tobj.Method == "checkIn" {
+			fmt.Println("Checking in")
 			usermodel.CheckIn(pass)
 			return c.Send([]byte{})
 		} else if tobj.Method == "submitProduct" && len(userObj) != 0 {
@@ -108,7 +108,6 @@ func main() {
 			response["success"] = r["success"]
 		}
 
-		//	c.SendString(response)200,fiber.Map{
 		return c.JSON(response)
 	})
 	app.Listen(":3000")
@@ -154,12 +153,6 @@ type SubmitIAddressObject struct {
 	}
 }
 
-/*
-	type ResObj struct {
-		Success bool   `json:"success"`
-		Reg     string `json:"reg,omitempty"`
-	}
-*/
 func register(obj RegisterObject) map[string]interface{} {
 
 	//	fmt.Println("len(userObj):", len(userObj))
@@ -197,11 +190,9 @@ func home() []interface{} {
 	}
 	defer db.Close()
 
-	//INNER JOIN users ON products.user = users.userid WHERE users.checkin > ? ORDER BY products.id DESC
-
 	now := time.Now().UTC()
-	count := 3000
-	then := now.Add(time.Duration(-count) * time.Hour)
+	count := 30
+	then := now.Add(time.Duration(-count) * time.Minute)
 
 	results, err := db.Query("SELECT pid,label,details,inventory,user,image,username FROM products INNER JOIN users ON products.user = users.userid WHERE users.checkin > ? ORDER BY products.id DESC", then.Format("2006-01-02 15:04:05"))
 	if err != nil {
@@ -241,7 +232,6 @@ func home() []interface{} {
 		product.Img = ""
 		if len(image) > 22 {
 			teststr := image
-			//fmt.Printf("Product: v%", teststr[0:22])
 			if teststr[0:22] == "data:image/png;base64," {
 				product.Img = "<img class='product_image' src='" + image + "'>"
 			}
@@ -272,8 +262,6 @@ func home() []interface{} {
 		if err != nil {
 			panic(err.Error())
 		}
-
-		//var iaddresses []interface{}
 
 		for results2.Next() {
 			var (
@@ -353,11 +341,9 @@ func order(iaid string) FullProduct {
 		fmt.Printf("s%", err)
 	}
 
-	// `receiver` will contain the actual `*string` typed items
 	cols, _ := rows.Columns()
 	//fmt.Println("columns", cols)
 	var product FullProduct
-	//result := make(map[string]interface{})
 
 	data := make(map[string]string)
 
@@ -374,7 +360,6 @@ func order(iaid string) FullProduct {
 			data[colName] = columns[i]
 		}
 	}
-	//fmt.Printf("Product: v%", data["label"])
 
 	product.Label = data["label"]
 
@@ -392,7 +377,6 @@ func order(iaid string) FullProduct {
 	product.Img = ""
 	if len(data["image"]) > 22 {
 		teststr := data["image"]
-		fmt.Printf("Product: v%", teststr[0:22])
 		if teststr[0:22] == "data:image/png;base64," {
 			product.Img = "<img style='max-width: 100%;' src='" + data["image"] + "'>"
 		}
