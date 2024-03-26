@@ -40,7 +40,7 @@ type SubmitIAddressObject struct {
 	}
 }
 
-type SubmitTxObject struct {
+type NewTxObject struct {
 	Method string `json:"method"`
 	Params struct {
 		Uuid  string `json:"uuid,omitempty"`
