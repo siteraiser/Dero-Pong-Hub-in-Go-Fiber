@@ -51,10 +51,10 @@ func handlePapi(c *fiber.Ctx) error {
 			err = c.BodyParser(&obj)
 			r = submitIAddress(userObj, obj)
 		case "newTX":
-			fmt.Println("submitTX")
-			var obj SubmitTxObject
+			fmt.Println("NewTX")
+			var obj NewTxObject
 			err = c.BodyParser(&obj)
-			r = submitTx(userObj, obj)
+			r = newTx(userObj, obj)
 		default:
 			return c.JSON(response)
 		}
