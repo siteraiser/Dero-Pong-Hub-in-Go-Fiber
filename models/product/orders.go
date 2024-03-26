@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func SubmitTx(
+func NewTx(
 	user map[string]interface {
 	},
 	tx TxJSON,
