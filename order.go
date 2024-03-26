@@ -115,14 +115,16 @@ func order(iaid string) FullProduct {
 	product.Scid = scid
 
 	//Remove any possible js attacks (encoded "<" mainly and all tags)
-	r := regexp.MustCompile(".")
-	fmt.Println(r.ReplaceAllString("&#60;", "*"))
-	fmt.Println(r.ReplaceAllString("&#x3C;", "*"))
-	r = regexp.MustCompile(`<.*?>`)
-	product.Details = r.ReplaceAllString(data["details"], "")
+	product.Details = data["details"]
+	product.Details = strings.ReplaceAll(product.Details, "&lt;", "<")
+	product.Details = strings.ReplaceAll(product.Details, "&#60;", "")
+	product.Details = strings.ReplaceAll(product.Details, "&#x3C;", "")
+
+	product.Details = regexp.MustCompile(`<.*?>`).ReplaceAllString(product.Details, "")
+
 	product.Details = strings.
 		Replace(
-			data["details"],
+			product.Details,
 			"\n",
 			"<br>",
 			-1,
