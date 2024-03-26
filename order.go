@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -113,6 +114,12 @@ func order(iaid string) FullProduct {
 
 	product.Scid = scid
 
+	//Remove any possible js attacks (encoded "<" mainly and all tags)
+	r := regexp.MustCompile(".")
+	fmt.Println(r.ReplaceAllString("&#60;", "*"))
+	fmt.Println(r.ReplaceAllString("&#x3C;", "*"))
+	r = regexp.MustCompile(`<.*?>`)
+	product.Details = r.ReplaceAllString(data["details"], "")
 	product.Details = strings.
 		Replace(
 			data["details"],
