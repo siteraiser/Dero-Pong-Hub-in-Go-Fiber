@@ -76,17 +76,17 @@ func submitIAddress(
 	return response
 }
 
-func submitTx(
+func newTx(
 	userObj map[string]interface { // similar pattern, we have a user
 	},
-	obj SubmitTxObject, // and we are submitting a "paid"
+	obj NewTxObject, // and we are submitting a "paid"
 ) map[string]interface {
 } {
 	response := map[string]interface {
 	}{
 		"success": true,
 	}
-	if productmodel.SubmitTx(
+	if productmodel.NewTx(
 		userObj,
 		obj.Params,
 	) {
