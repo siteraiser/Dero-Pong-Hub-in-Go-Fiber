@@ -38,8 +38,8 @@
     #senddata{padding:5px;}
 
     #physical_goods_shipping {
-        border: solid 3px black;
-        padding: 3px;
+        border: solid 2px black;
+        padding: 4px;
     }
 
 
@@ -305,13 +305,15 @@ input:checked + .slider:before {
         during_selected = false
         during_after_message.innerHTML = after_message;
         after_uuid.classList.remove('hidden');
+        validate(event);
         checkOrderNumber(event)
     }else{
         during_selected = true
         during_after_message.innerHTML = during_message;
         after_uuid.classList.add('hidden');
+        validate(event);
     }
-    validate(event);
+    
      }, false);
 
 
@@ -342,10 +344,11 @@ input:checked + .slider:before {
         if(order_number !='' && order_number.length == 36){
             valid = true;
             id.value = crc32(order_number);
-            copy_section.classList.add("success");        
+            copy_section.classList.add("success");       
+            
         }
         validate(event);
-        
+        console.log(valid)
         if(!valid){
             
             senddata.innerHTML = '<span style="color:red;">Invalid order number, (copy payload) from the seller response containing your order id (UUID).</span>';
